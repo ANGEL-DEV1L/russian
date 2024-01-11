@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crossword Puzzle</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    td {
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      border: 1px solid black;
+    }
+
+    td:empty {
+      background-color: #555;
+    }
+
+    input {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <table>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>1.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>4.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>5.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>6.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>7.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>8.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>9.</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+  </div>
+
+  <div class="container">
+    <input type="text" id="wordInput" placeholder="Enter a word">
+    <button onclick="checkAndFill()">Submit</button>
+  </div>
+  <script>
+    const cells = document.querySelectorAll('td');
+    const words = [
+      { word: 'пряники', start: 5, end: 11 },
+      { word: 'конфеты', start: 20, end: 26 },
+      { word: 'мороженое', start: 32, end: 40 },
+      { word: 'дед мороз', start: 51, end: 59 },
+      { word: 'зефир', start: 65, end: 69 },
+      { word: 'снегурочка', start: 81, end: 90 },
+      { word: 'творог', start: 96, end: 101 },
+      { word: 'свеча', start: 110, end: 114 },
+      { word: 'пирог', start: 123, end: 127 },
+    ];
+
+    function checkAndFill() {
+      const input = document.getElementById('wordInput');
+      const enteredWord = input.value.trim().toLowerCase();
+
+      for (const word of words) {
+        if (word.word === enteredWord) {
+          fillWord(word);
+          break;
+        }
+      }
+
+      input.value = '';
+    }
+
+    function fillWord(word) {
+      const { start, end } = word;
+      let index = 0;
+
+      for (let i = start; i <= end; i++) {
+        setTimeout(() => {
+          cells[i - 1].innerHTML = word.word[index++];
+        }, (i - start + 1) * 170);
+      }
+    }
+  </script>
+</body>
+</html>
