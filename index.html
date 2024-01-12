@@ -4,40 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crossword Puzzle</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0"></script>
   <style>
     body {
-      display: flex;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
+      align-items: center;
+     background-color: #282828; /* Dark gray */
+     color: #f8f8f2; /* Light gray */
+     font-family: Arial, sans-serif;
     }
-
+    
     .container {
-      text-align: center;
+     text-align: center;
+     padding: 20px;
+     background-color: #383838; /* Slightly lighter gray for contrast */
+     border-radius: 5px;
     }
-
+    
     table {
-      border-collapse: collapse;
-      margin-bottom: 20px;
-      display: inline-block;
+     border-collapse: collapse;
+     margin-bottom: 20px;
+     display: inline-block;
     }
-
+    
     td {
-      width: 60px;
-      height: 60px;
-      text-align: center;
-      border: 1px solid black;
+     width: 60px;
+     height: 60px;
+     text-align: center;
+     border: 1px solid #444; /* Gray border */
+     color: #f8f8f2; /* Light gray text */
+     background-color: #444; /* Gray background */
     }
-
+    
     td:empty {
-      background-color: #555;
+     background-color: #555; /* Even darker gray for empty cells */
     }
-
+    
     input {
-      margin-left: 10px;
+     margin-left: 10px;
+     background-color: #444; /* Gray background */
+     color: #f8f8f2; /* Light gray text */
     }
-  </style>
+    </style>
 </head>
 <body>
   <div class="container">
@@ -200,7 +208,7 @@
 
   <div class="container">
     <input type="text" id="wordInput" placeholder="Enter a word">
-    <button onclick="checkAndFill()">Submit</button>
+    
   </div>
   <script>
     const cells = document.querySelectorAll('td');
@@ -217,29 +225,47 @@
     ];
 
     function checkAndFill() {
-      const input = document.getElementById('wordInput');
-      const enteredWord = input.value.trim().toLowerCase();
+    const input = document.getElementById('wordInput');
+    const enteredWord = input.value.trim().toLowerCase();
+    let filledCount = 0;
 
-      for (const word of words) {
+    for (const word of words) {
         if (word.word === enteredWord) {
-          fillWord(word);
-          break;
+            fillWord(word);
+            filledCount++;
         }
-      }
-
-      input.value = '';
     }
+
+    input.value = '';
+    console.log(filledCount);
+    if (filledCount === 1) {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+}
+
+
+    document.getElementById('wordInput').addEventListener('keydown', function(event) {
+    if (event.keyCode == 13) {
+      event.preventDefault();
+      checkAndFill();
+    }
+    });
 
     function fillWord(word) {
-      const { start, end } = word;
-      let index = 0;
+    const { start, end } = word;
+    let index = 0;
 
-      for (let i = start; i <= end; i++) {
-        setTimeout(() => {
-          cells[i - 1].innerHTML = word.word[index++];
-        }, (i - start + 1) * 170);
-      }
+    for (let i = start; i <= end; i++) {
+      setTimeout(() => {
+        cells[i - 1].innerHTML = word.word[index++];
+      }, (i - start + 1) * 170);
     }
+    }
+
   </script>
 </body>
 </html>
